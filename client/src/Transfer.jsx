@@ -11,12 +11,16 @@ function Transfer({ address, setBalance, privateKey }) {
 
   const setValue = (setter) => (evt) => setter(evt.target.value);
 
-  const hashMessage = (message) => keccak256(Uint8Array.from(message));
-  const signMessage = (msg) => secp256k1.sign(hashMessage(msg), privateKey);
+  const hashMessage = (message) => {
+    return toHex(keccak256(Uint8Array.from(message)));
+  };
+  const signMessage = (msg) => {
+    return secp256k1.sign(hashMessage(msg), privateKey);
+  };
 
   async function transfer(evt) {
     evt.preventDefault();
-
+    console.log(privateKey);
     const msg = { amount: parseInt(sendAmount), recipient };
     const sig = signMessage(msg);
 
@@ -32,7 +36,6 @@ function Transfer({ address, setBalance, privateKey }) {
       return obj;
     };
 
-    // stringify bigints before sending to server
     const sigStringed = stringifyBigInts(sig);
 
     const tx = {
@@ -40,7 +43,7 @@ function Transfer({ address, setBalance, privateKey }) {
       msg,
       sender: address,
     };
-
+    console.log(sig);
     try {
       const {
         data: { balance },

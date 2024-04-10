@@ -25,8 +25,8 @@ const privateKeys = {
 app.get("/balance/:address", (req, res) => {
   const { address } = req.params;
   const balance = balances[address] || 0;
-  const privateKey = privateKeys[address];
-  res.send({ balance, privateKey });
+  const privateKey1 = privateKeys[address];
+  res.send({ balance, privateKey1 });
 });
 
 app.post("/send", (req, res) => {
